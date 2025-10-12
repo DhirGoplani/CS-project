@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const client = new MongoClient('mongodb+srv://goplanidhir:Dhir1000@cluster1.cj3xb2t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1');
+const client = new MongoClient('mongodb+srv://Dhir:Dhir0000@cluster0.wsrgvbz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 let db;
 
 client.connect().then(() => {
@@ -152,4 +152,3 @@ app.post('/buy/:itemId', async (req, res) => {
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });
-

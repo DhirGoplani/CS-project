@@ -54,9 +54,10 @@
         const result = await res.json();
         console.log("✅ Server response:", result);
 
-        if (res.ok) {
+        if(res.ok) {
           window.location.href = '/buy.html';
-        } else {
+        } 
+        else {
           errorBox.textContent = result.message;
           errorBox.style.display = 'block';
         }

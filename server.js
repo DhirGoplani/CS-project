@@ -10,7 +10,7 @@ const { MongoClient } = require('mongodb');
 const app = express();
 const port = 3000;
 
-mongoose.connect('mongodb://mongo:27017/loginApp')
+mongoose.connect('mongodb+srv://Dhir:Dhir0000@cluster0.wsrgvbz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.log("❌ MongoDB connection error:", err));
 
@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const client = new MongoClient('mongodb://mongo:27017/loginApp');
+const client = new MongoClient('mongodb+srv://Dhir:Dhir0000@cluster0.wsrgvbz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 let db;
 
 client.connect().then(() => {

@@ -71,6 +71,16 @@
       border-radius: 5px;
       font-size: 16px;
     }
+    .item-card p {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.item-card .price {
+  color: #ffa500;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
@@ -87,7 +97,7 @@
       <option value="all">All Categories</option>
       <option value="toys">Toys</option>
       <option value="electronics">Electronics</option>
-      <option value="vehicles">Vehicles</option>
+      <option value="automobiles">Automobiles</option>
       <option value="clothes">Clothes</option>
     </select>
   </div>
@@ -107,12 +117,10 @@
     function renderItems(items) {
       const container = document.getElementById('itemsContainer');
       container.innerHTML = '';
-
-      if (items.length === 0) {
+      if(items.length === 0) {
         container.innerHTML = "<p>No items available right now.</p>";
         return;
       }
-
       items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'item-card';
@@ -121,14 +129,13 @@
           <h3>${item.itemName}</h3>
           <p>${item.description || ''}</p>
           <p>Category: ${item.category || 'Uncategorized'}</p>
-          <p>Price: ₹${item.price}</p>
+          <p class="price">₹${item.price}</p>
           <p>Seller: ${item.username}</p>
           <button onclick="buyItem('${item._id}', '${item.username}')">Buy</button>
         `;
         container.appendChild(card);
       });
     }
-
     document.getElementById('categorySelect').addEventListener('change', (e) => {
       const selected = e.target.value;
       if (selected === 'all') {
@@ -137,27 +144,25 @@
         renderItems(allItems.filter(item => item.category?.toLowerCase() === selected));
       }
     });
-
     async function buyItem(itemId, sellerUsername) {
       try {
         const resUser = await fetch('/api/user');
         const user = await resUser.json();
-
-        if (user.username === sellerUsername) {
+        if(user.username === sellerUsername){
           alert("You cannot buy your own item!");
           return;
         }
-
         const res = await fetch(`/buy/${itemId}`, { method: 'POST' });
-
-        if (res.ok) {
+        if(res.ok){
           alert('Item bought successfully!');
           location.reload();
-        } else {
+        }
+        else {
           const msg = await res.text();
           alert(msg || 'Failed to buy item');
         }
-      } catch (err) {
+      } 
+      catch (err) {
         console.error('Buy failed:', err);
         alert('Something went wrong');
       }

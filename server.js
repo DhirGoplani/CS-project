@@ -149,6 +149,17 @@ app.post('/buy/:itemId', async (req, res) => {
   }
 });
 
+app.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).send('Logout failed');
+    }
+    res.clearCookie('connect.sid'); 
+    res.sendStatus(200);
+  });
+});
+
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });

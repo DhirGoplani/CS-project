@@ -54,6 +54,22 @@
     .selling-item button:hover {
       background-color: darkred;
     }
+    #logoutBtn {
+  margin: 10px 0 20px;
+  background-color: #ffa500;
+  color: black;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#logoutBtn:hover {
+  background-color: #ff9800;
+  transform: scale(1.05);
+}
   </style>
   
 </head>
@@ -70,6 +86,7 @@
   <div class="profile-box">
     <img src="images/icon.png" alt="User Image" class="profile-img" />
     <h3>User Name</h3>
+    <button id="logoutBtn">Logout</button>
     <div class="stats">
       <div class="stat-item">Items Bought: <span>0</span></div>
       <div class="stat-item">Items Sold: <span>0</span></div>
@@ -115,6 +132,21 @@
           }
         });
     }
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        const res = await fetch("/logout", { method: "POST" });
+        if (res.ok) {
+          window.location.href = "/login.html"; 
+        } 
+        else {
+          alert("Logout failed");
+        }
+      } 
+      catch (err) {
+        console.error(err);
+        alert("Something went wrong");
+      }
+    });
   </script>
 </body>
 </html>

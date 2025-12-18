@@ -4,52 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Buy Items</title>
-
+  <link rel="stylesheet" href="/css/style.css" />
   <style>
-    body {
-      background-color: #121212;
-      color: white;
-      font-family: Arial, sans-serif;
-      margin: 0;
-    }
-
-    h1 {
-      text-align: center;
-      margin: 20px 0;
-      font-size: 3rem;
-    }
-
-    .len { color: white; }
-    .den { color: orange; }
-
-    nav ul {
-  display: flex;
-  list-style: none;
-  gap: 24px;
-  justify-content: center;
-  padding: 12px 0;
-  margin: 0;
-  background: #000;
-}
-
-nav a {
-  font-family: Arial, sans-serif;  
-  font-size: 1.1rem;
-  font-weight: 600;                 
-  color: white;
-  text-decoration: underline;
-  font-size: 1.1rem;
-  padding: 8px 16px;          
-  border-radius: 6px;         
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-nav a:hover {
-  background-color: #ffa500;  
-  color: black;
-}
-
-    /* FILTERS */
     #filterContainer {
       display: flex;
       justify-content: center;
@@ -72,7 +28,6 @@ nav a:hover {
       font-size: 14px;
     }
 
-    /* ITEMS GRID */
     #itemsContainer {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -136,7 +91,6 @@ nav a:hover {
       transform: scale(1.05);
     }
 
-    /* MOBILE */
     @media (max-width: 600px) {
       #itemsContainer {
         padding: 16px;
@@ -255,7 +209,7 @@ nav a:hover {
     }
 
     async function buyItem(itemId, sellerUsername) {
-      try {
+      try{
         const resUser = await fetch('/api/user');
         const user = await resUser.json();
 
@@ -266,13 +220,15 @@ nav a:hover {
 
         const res = await fetch(`/buy/${itemId}`, { method: 'POST' });
 
-        if (res.ok) {
+        if(res.ok){
           alert('Item bought successfully!');
           location.reload();
-        } else {
+        }
+        else {
           alert(await res.text() || 'Failed to buy item');
         }
-      } catch (err) {
+      }
+      catch (err) {
         console.error(err);
         alert('Something went wrong');
       }

@@ -6,6 +6,8 @@ const multer = require('multer');
 const { ObjectId } = require('mongodb');
 const User = require('./models/modeluser');
 const { MongoClient } = require('mongodb');
+const bcrypt = require('bcrypt');
+
 
 const app = express();
 const port = 3000;
@@ -51,12 +53,23 @@ app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   try {
     const existingUser = await User.findOne({ username });
-    if (existingUser) return res.status(400).json({ message: 'Username already exists!' });
-    const newUser = new User({ username, password });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Username already exists!' });
+    }
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const newUser = new User({
+      username,
+      password: hashedPassword
+    });
+
     await newUser.save();
     req.session.user = { id: newUser._id, username: newUser.username };
+
     res.status(200).json({ message: 'Registration successful!' });
-  } catch (err) {
+  }
+  catch (err) {
     res.status(500).json({ message: 'Registration failed.' });
   }
 });
@@ -65,16 +78,22 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findOne({ username });
-    if (user && user.password === password) {
-      req.session.user = { id: user._id, username: user.username };
-      return res.status(200).json({ message: 'Login successful!' });
-    } else {
+    if (!user) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
-  } catch (err) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    req.session.user = { id: user._id, username: user.username };
+    res.status(200).json({ message: 'Login successful!' });
+
+  }
+  catch (err) {
     res.status(500).json({ message: 'Login failed.' });
   }
 });
+
 
 app.get('/api/user', async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Not logged in' });

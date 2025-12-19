@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
-mongoose.connect('mongodb+srv://Dhir:Dhir0000@cluster0.wsrgvbz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('')
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.log("❌ MongoDB connection error:", err));
 
@@ -38,7 +38,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const client = new MongoClient('mongodb+srv://Dhir:Dhir0000@cluster0.wsrgvbz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
+const client = new MongoClient('');
 let db;
 
 client.connect().then(() => {
